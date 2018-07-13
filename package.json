@@ -1,0 +1,20 @@
+{
+  "name": "ihot",
+  "version": "0.0.1",
+  "description": "International House of Tanks",
+  "license": "SEE LICENSE IN License.txt",
+  "scripts": {
+    "build": "node src/server/app.js"
+  },
+  "engines": {
+    "node": "^10.6.0",
+    "npm": "^6.1.0"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "phaser": "^3.11.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}
