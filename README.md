@@ -11,7 +11,9 @@
   npm install
   ```
 
-### Build
+### Start
   ```
   npm run build
+  npm run start
   ```
+  The server will be running on: http://localhost:3000

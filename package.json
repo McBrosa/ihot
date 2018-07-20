@@ -4,17 +4,30 @@
   "description": "International House of Tanks",
   "license": "SEE LICENSE IN License.txt",
   "scripts": {
-    "build": "node src/server/app.js"
+    "build": "webpack",
+    "start": "node src/server/app.js"
   },
   "engines": {
     "node": "^10.6.0",
     "npm": "^6.1.0"
   },
   "dependencies": {
+    "copy-webpack-plugin": "^4.5.2",
     "express": "^4.16.3",
+    "lodash": "^4.17.10",
     "phaser": "^3.11.0"
   },
   "devDependencies": {
-    "gulp": "^3.9.1"
-  }
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.2.1",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.1.0"
+  },
+  "main": "index.js",
+  "repository": "https://github.com/McBrosa/ihot.git",
+  "author": "Nathan Rosa <Nathan.Rosa@ibm.com>",
+  "private": true
 }
