@@ -1,11 +1,19 @@
 import 'phaser';
 
-import { SimpleScene } from './scenes/simple-scene';
+import { TankTest } from './scenes/tank-test';
 
 const gameConfig = {
-  width: 680,
-  height: 400,
-  scene: SimpleScene
+    type: Phaser.AUTO,
+    width: 1280,
+    height: 600,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            // gravity: { y: 300 },
+            debug: false
+        }
+    },
+    scene: TankTest
 };
 
 new Phaser.Game(gameConfig);
