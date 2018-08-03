@@ -4,8 +4,9 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    app: './src/index.js',
-    'production-dependencies': ['phaser']
+    app: "./src/client/js/index.js",
+    // app: './src/index.js',
+    'production-dependencies': ['phaser', 'socket.io'],
   },
 
   output: {
@@ -22,6 +23,12 @@ module.exports = {
     },
   },
 
+  resolve: {
+    modules: ['node_modules'],
+  },
+
+  externals: ["fs", "uws"],
+
   module: {
     rules: [
       {
@@ -30,7 +37,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env']
+            presets: ['env'],
           }
         }
       }
@@ -40,7 +47,7 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, 'index.html'),
+        from: path.resolve(path.join(__dirname, 'src/client/html/index.html')),
         to: path.resolve(__dirname, 'dist')
       },
       {
@@ -51,6 +58,6 @@ module.exports = {
     new webpack.DefinePlugin({
       'typeof CANVAS_RENDERER': JSON.stringify(true),
       'typeof WEBGL_RENDERER': JSON.stringify(true)
-    })
+    }),
   ]
 }
