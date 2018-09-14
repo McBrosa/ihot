@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import socketio from 'socket.io-client';
-import Player from './../player';
+import Player from '../player';
 
 export default class GameState extends Phaser.State {
   constructor() {
@@ -8,22 +8,26 @@ export default class GameState extends Phaser.State {
   }
   preload() {
     this.doneLoading = 0; //this is 1 at the end of createOnConnection
-    this.load.image('coke', '/assets/cokecan.png');
     this.load.image('background', 'assets/space.jpg');
     this.load.image('dirt', 'assets/dirt.jpg');
     this.load.image('land', 'assets/land.jpg');
+    this.load.image('juan_tank', 'assets/tanks/juan_tank.png');
+    this.load.image('juan_turret', 'assets/tanks/barrel.png');
   }
+
   create() {
     this.io = socketio.connect();
     this.io.on('connect', data => {
       this.createOnConnection(data);
     });
 
+    this.background = this.add.sprite(0, 0, 'background').setOrigin(0, 0);
     this.land = this.add.bitmapData(400, 300);
     this.land.draw('land');
     this.land.update();
     this.land.addToWorld();
   }
+
   update() {
     if (this.doneLoading) {
       const player = this.getPlayerById(this.io.id);
@@ -37,12 +41,13 @@ export default class GameState extends Phaser.State {
       this.getPlayerById(this.io.id).update();
 
       this.topText.setText(`Your ID: ${this.io.id}
-${this.players.length} players
-posX: ${Math.floor(player.sprite.worldPosition.x)}
-posY: ${Math.floor(player.sprite.worldPosition.y)}
-			`);
+        ${this.players.length} players
+        posX: ${Math.floor(player.sprite.worldPosition.x)}
+        posY: ${Math.floor(player.sprite.worldPosition.y)}
+      `);
     }
   }
+
   createOnConnection(data) {
     window.players = [];
     this.players = players;
@@ -83,11 +88,7 @@ posY: ${Math.floor(player.sprite.worldPosition.y)}
 
     this.io.on('server:player-disconnected', id => { //if a player has disconnected
       console.log(`Player ${id} disconnected`);
-      for (let i = 0; i < this.players.length; i++) //loop through all players
-        if (this.players[i].id == id) { // found the player
-          this.players[i].sprite.destroy(); //phaser sprite destroy function
-          this.players.splice(i, 1); //unset from the players array
-        }
+      this.deletePlayerById(id)
     });
 
     this.io.on('server:player-moved', data => {
@@ -96,8 +97,15 @@ posY: ${Math.floor(player.sprite.worldPosition.y)}
   }
 
   getPlayerById(id) {
-    for (let i = 0; i < this.players.length; i++)
-      if (this.players[i].id == id) return this.players[i];
+    const foundPlayer = this.players.find(player => player.id === id)
+    return foundPlayer ? foundPlayer : null
+  }
 
+  deletePlayerById(id) {
+    const foundPlayerIndex = this.players.findIndex(player => player.id === id)
+    if (foundPlayerIndex > -1) {
+      this.players[i].sprite.destroy(); //phaser sprite destroy function
+      this.players.splice(i, 1); //unset from the players array
+    }
   }
 }
